@@ -1,0 +1,84 @@
+﻿@{
+    @model SocialMarketplace.Models.ViewModels.Request.DetailViewModel
+}
+<h2>@ViewBag.Title</h2>
+
+<h3>
+    @Model.Subtitle
+</h3>
+
+<br/></br>
+
+<div class="row">
+    <div class="col-md-8">
+        <img src="@Model.PhotoURL" class="img-responsive">
+    </div>
+
+    <div class="col-md-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Title - @item.Detail</td>
+                        <td>@item.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Model.Progress"
+                 aria-valuemin="0" aria-valuemax="100" style="width:@Model.Progress%">
+                @Model.Progress%
+            </div>
+        </div>
+
+        <h4>Due in: @Model.DateDue.Subtract(DateTime.Today).Days days</h4>
+
+        <br />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            if (Model.Progress < 100)
+            {
+                <button type="submit" name="command" value="Donate" class="btn btn-success">Donate</button>
+            }
+
+            <button type="submit" name="command" value="Question" class="btn btn-default">Ask a Question</button>
+            <br /><br />
+            <button type="submit" name="command" value="Duplicate" class="btn btn-default">Duplicate this request!</button>
+
+            <br /><br /><br />
+            <p>Category: @Model.CategoryName</p>
+            <button type="submit" name="command" value="Notification" class="btn btn-default">Get notified</button>
+        }
+
+        <br /><br />
+
+        <p>Keywords: @Model.Keywords</p>
+
+        <p>
+            <a href="https://www.facebook.com/"><i id="social-fb" class="fa fa-facebook-square fa social"></i></a>
+            <a href="https://twitter.com/"><i id="social-tw" class="fa fa-twitter-square fa social"></i></a>
+            <a href="https://plus.google.com/"><i id="social-gp" class="fa fa-google-plus-square fa social"></i></a>
+            <a href="mailto:henrique.tensfeld@gmail.com"><i id="social-em" class="fa fa-envelope-square fa social"></i></a>
+        </p>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>About</h4>
+        <p>@Model.Description</p>
+    </div>
+</div>
